@@ -41,10 +41,10 @@ destDir="/home/alfredo/Documents/TXT/selectBooks/"
 
 # Verifying if file exists
 if [ ! -f "$file2BeMoved" ]; then
-    echo "JCS_ExtensionsMain.sh - File $file2BeMoved does not exist."
-    echo "JCS_ExtensionsMain.sh - So it will not be moved."  
+    echo "JCS_SelectBooks.sh - File $file2BeMoved does not exist."
+    echo "JCS_SelectBooks.sh - So it will not be moved."  
   else
-    echo "JCS_ExtensionsMain.sh - Moving file $file2BeMoved"
+    echo "JCS_SelectBooks.sh - Moving file $file2BeMoved"
     mv $file2BeMoved $destDir
 fi
 

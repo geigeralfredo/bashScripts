@@ -1,23 +1,43 @@
 #!/bin/bash
 ############################################################################
 #SCRIPT: JCS_SubjectsMain.sh
-#PURPOSE:   To create the Subjects file by calling programs:
+#           Receives all the parameters from script JCS_Subjects.sh
+#
+#PURPOSE:   To create the Subjects file that will be written in 
+#           selectedBooks_SubjectsWithoutPlural.txt 
+#           and create the file with the phonetic code for each word in 
+#           selectedBooks_EncodedWords.txt
+#
+#           Called programs:
+#
 #           - Program wordsOnly:
+#
 #               - Parameters: (Mandatory)
 #                   1-File with a summary of a list of all books
 #                   2-Directory base name of the Book collection
+#
 #               - Generates:
-#                   a) selectedBooks_OnlyWords.txt
+#                   1) selectedBooks_OnlyWords.txt
 #                     A file with all words of directory names
 #                     and book Titles.
-#                   b) selectedBooks_RejectedWords.txt
-#                   c) selectedBooks_RejectedByRegExs.txt
-#           - Sorts the a) file above with the "-u" (unique) flag
+#                   2) selectedBooks_RejectedWords.txt
+#                   3) selectedBooks_RejectedByRegExs.txt
+#
+#           - Sorts the generated file (1) above with the "-u" (unique) 
+#             flag to remove the duplicate words
+#
 #           - Program removePlural:
+#
 #               - Reads the output of the "sort" program above
 #               - Generates files:
-#                   a) Subjects file: selectedBooks_SubjectsWithoutPlural.txt
-#                   b) WordsWithPlural file: selectedBooks_WordsWithPlural.txt
+#                   1) Subjects file: selectedBooks_SubjectsWithoutPlural.txt
+#                   2) WordsWithPlural file: selectedBooks_WordsWithPlural.txt
+#
+#           - Program Soundex:
+#
+#               - Reads file selectedBooks_SubjectsWithoutPlural.txt
+#               - Generates: 
+#                   1) Encoded words file: selectedBooks_EncodedWords.txt
 ############################################################################
 #
 # Only arg - File to be read 
@@ -85,9 +105,13 @@ echo
 
 ############################################################################
 #   Calling wordsOnly
-#   output: a) selectedBooks_OnlyWords.txt
-#           b) selectedBooks_RejectedWords.txt
-#           c) selectedBooks_RejectedByRegExs.txt
+#
+#   input : 1) ~/Documents/TXT/selectBooks/BookLists/AllBooks.txt
+#           2) ~/BookCollection/
+#
+#   output: 1) selectedBooks_OnlyWords.txt
+#           2) selectedBooks_RejectedWords.txt
+#           3) selectedBooks_RejectedByRegExs.txt
 ############################################################################
 echo "JCS_SubjectsMain.sh - ========== calling 'wordsOnly' =============="
 wordsOnly $file2beRead $dirBaseName $onlyWords $rejectedWords $rejectedWordsByRegExs
@@ -99,9 +123,12 @@ fi
 
 ############################################################################
 #   Calling sort unique (-u)
+#
+#   LC_COLLATE=C must be used for special chars be classified before any
+#   letter
 ############################################################################
 echo "JCS_SubjectsMain.sh - ========== sort -u =============="
-sort -u $onlyWords > ~/Documents/TXT/wordsOnly/selectedBooks_OnlyWordsSorted.txt
+LC_COLLATE=C sort -u $onlyWords > ~/Documents/TXT/wordsOnly/selectedBooks_OnlyWordsSorted.txt
 
 if [ $? -ne 0 ] 
 then
@@ -110,11 +137,31 @@ fi
 
 ############################################################################
 #   Calling removePlural
-#   output: a) selectedBooks_SubjectsWithoutPlural.txt
-#           b) selectedBooks_WordsWithPlural.txt
+#
+#   input : 1) selectedBooks_OnlyWordsSorted.txt
+#
+#   output: 1) selectedBooks_SubjectsWithoutPlural.txt
+#           2) selectedBooks_WordsWithPlural.txt
 ############################################################################
 echo "JCS_SubjectsMain.sh - ========== calling 'removePlural' =============="
 removePlural ~/Documents/TXT/wordsOnly/selectedBooks_OnlyWordsSorted.txt ~/Documents/TXT/wordsOnly/selectedBooks_SubjectsWithoutPlural.txt ~/Documents/TXT/wordsOnly/selectedBooks_WordsWithPlural.txt
+    
+if [ $? -ne 0 ] 
+then
+    exit 1
+fi
+
+############################################################################
+#   Calling Soundex
+#
+#   input : 1)selectedBooks_SubjectsWithoutPlural.txt
+#           2) "4" - last parameter - phonetic code size that may be 
+#               from 4 to 7 (Default size of the phonetic code)
+#
+#   output: 1) selectedBooks_EncodedWords.txt
+############################################################################
+echo "JCS_SubjectsMain.sh - ========== calling 'Soundex' =============="
+Soundex ~/Documents/TXT/wordsOnly/selectedBooks_SubjectsWithoutPlural.txt ~/Documents/TXT/wordsOnly/selectedBooks_EncodedWords.txt 4
     
 if [ $? -ne 0 ] 
 then
