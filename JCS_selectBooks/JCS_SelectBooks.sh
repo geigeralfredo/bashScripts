@@ -12,8 +12,8 @@
 #   Calling JCS_CreateAllBooksFile.sh
 ############################################################################
 echo "JCS_SelectBooks.sh - ========== calling 'JCS_CreateAllBooksFile.sh' ==========="
-mapfile -t < ~/sh_JCS/JCS_CreateAllBooksFileArguments.txt
-source JCS_CreateAllBooksFile.sh "${MAPFILE[@]}"
+mapfile -t < ~/sh_JCS/JCS_CreateAllBooksArguments.txt
+source JCS_CreateAllBooks.sh "${MAPFILE[@]}"
 
 if [ $? -ne 0 ] 
 then
