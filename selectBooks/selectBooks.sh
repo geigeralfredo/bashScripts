@@ -158,6 +158,7 @@ do
         c) DIR_BOOK_COLLECTION=${OPTARG};;
         l) DIR_BOOK_LISTS=${OPTARG};;
         s) SUBJECTS_FILE=${OPTARG};;
+        *)echo 'Invalid Option'        
     esac
 done
 
