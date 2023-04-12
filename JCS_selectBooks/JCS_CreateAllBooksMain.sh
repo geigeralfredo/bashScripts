@@ -9,7 +9,6 @@
 
 #Constants
 ALL_BOOKS_TXT="AllBooks.txt"
-SUCCESS=0
 
 # check number of arguments, must be 2 arguments
 if [[ $# -lt 3 ]]
@@ -28,36 +27,36 @@ DIR_ALL_BOOKS=$2
 CREATE_YES_NO=$3
 
 # Received parameters
-echo "DIR_BOOK_COLLECTION = " $DIR_BOOK_COLLECTION
-echo "DIR_ALL_BOOKS       = " $DIR_ALL_BOOKS
-echo "CREATE_YES_NO      = " $CREATE_YES_NO
+echo "DIR_BOOK_COLLECTION = " "$DIR_BOOK_COLLECTION"
+echo "DIR_ALL_BOOKS       = " "$DIR_ALL_BOOKS"
+echo "CREATE_YES_NO      = " "$CREATE_YES_NO"
 
 # Verifying arguments
-if [ ! -d $DIR_BOOK_COLLECTION ]; then
+if [ ! -d "$DIR_BOOK_COLLECTION" ]; then
   echo "JCS_CreateAllBooksFile.sh - Directory $DIR_BOOK_COLLECTION does not exist."
   echo "JCS_CreateAllBooksFile.sh - the script will terminate."
   exit 1
 fi
 
-if [ ! -d $DIR_ALL_BOOKS ]; then
+if [ ! -d "$DIR_ALL_BOOKS" ]; then
   echo "JCS_CreateAllBooksFile.sh - Directory $DIR_ALL_BOOKS does not exist."
   echo "JCS_CreateAllBooksFile.sh - it will be created."
-  mkdir $DIR_ALL_BOOKS
+  mkdir "$DIR_ALL_BOOKS"
 fi
 
 ALL_BOOKS_PATH_PLUS_FILENAME=$DIR_ALL_BOOKS$ALL_BOOKS_TXT
 
 # Here arguments are OK
 echo "*---------------------------------------------------------------------*"
-echo "DIR_BOOK_COLLECTION            = " $DIR_BOOK_COLLECTION
-echo "ALL_BOOKS_PATH_PLUS_FILENAME   = " $ALL_BOOKS_PATH_PLUS_FILENAME
+echo "DIR_BOOK_COLLECTION            = " "$DIR_BOOK_COLLECTION"
+echo "ALL_BOOKS_PATH_PLUS_FILENAME   = " "$ALL_BOOKS_PATH_PLUS_FILENAME"
 echo "*---------------------------------------------------------------------*"
 
 # Creates the file if "create=yes"
-if [ $CREATE_YES_NO == "create=yes" ]; then
+if [ "$CREATE_YES_NO" == "create=yes" ]; then
     echo "JCS_CreateAllBooksFile.sh - All Books file will be created." 
     find "$DIR_BOOK_COLLECTION" -iname '*' -type f -print > "/tmp/AllBooks.txt"
-    sort "/tmp/AllBooks.txt" > $ALL_BOOKS_PATH_PLUS_FILENAME
+    sort "/tmp/AllBooks.txt" > "$ALL_BOOKS_PATH_PLUS_FILENAME"
     rm "/tmp/AllBooks.txt"
 else
     echo "JCS_CreateAllBooksFile.sh - All Books file WILL NOT be created." 

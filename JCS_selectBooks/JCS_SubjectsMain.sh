@@ -64,43 +64,43 @@ rejectedWords=$4
 rejectedWordsByRegExs=$5
 
 # Verifying arguments
-if [ ! -f $file2beRead ]; then
+if [ ! -f "$file2beRead" ]; then
   echo "JCS_SubjectsMain.sh - File $file2beRead does not exist."
   echo "JCS_SubjectsMain.sh - the script will terminate"  
   exit 1
 fi
 
-if [ ! -d $dirBaseName ]; then
+if [ ! -d "$dirBaseName" ]; then
   echo "JCS_SubjectsMain.sh - File $dirBaseName does not exist."
   echo "JCS_SubjectsMain.sh - the script will terminate"  
   exit 1
 fi
 
-if [ ! -f $onlyWords ]; then
+if [ ! -f "$onlyWords" ]; then
   echo "JCS_SubjectsMain.sh - File $onlyWords does not exist."
   echo "JCS_SubjectsMain.sh - It will be created"  
-  touch $onlyWords
+  touch "$onlyWords"
 fi
 
-if [ ! -f $rejectedWords ]; then
+if [ ! -f "$rejectedWords" ]; then
   echo "JCS_SubjectsMain.sh - File $rejectedWords does not exist."
   echo "JCS_SubjectsMain.sh - It will be created"  
-  touch $rejectedWords
+  touch "$rejectedWords"
 fi
 
-if [ ! -f $rejectedWordsByRegExs ]; then
+if [ ! -f "$rejectedWordsByRegExs" ]; then
   echo "JCS_SubjectsMain.sh - File $rejectedWordsByRegExs does not exist."
   echo "JCS_SubjectsMain.sh - It will be created"  
-  touch $rejectedWordsByRegExs
+  touch "$rejectedWordsByRegExs"
 fi
 
 # Here arguments are OK
 echo
-echo "JCS_SubjectsMain.sh - file2beRead           = " $file2beRead
-echo "JCS_SubjectsMain.sh - dirBaseName           = " $dirBaseName
-echo "JCS_SubjectsMain.sh - onlyWords             = " $onlyWords
-echo "JCS_SubjectsMain.sh - rejectedWords         = " $rejectedWords
-echo "JCS_SubjectsMain.sh - rejectedWordsByRegExs = " $rejectedWordsByRegExs
+echo "JCS_SubjectsMain.sh - file2beRead           = " "$file2beRead"
+echo "JCS_SubjectsMain.sh - dirBaseName           = " "$dirBaseName"
+echo "JCS_SubjectsMain.sh - onlyWords             = " "$onlyWords"
+echo "JCS_SubjectsMain.sh - rejectedWords         = " "$rejectedWords"
+echo "JCS_SubjectsMain.sh - rejectedWordsByRegExs = " "$rejectedWordsByRegExs"
 echo
 
 ############################################################################
@@ -114,12 +114,49 @@ echo
 #           3) selectedBooks_RejectedByRegExs.txt
 ############################################################################
 echo "JCS_SubjectsMain.sh - ========== calling 'wordsOnly' =============="
-wordsOnly $file2beRead $dirBaseName $onlyWords $rejectedWords $rejectedWordsByRegExs
+wordsOnly "$file2beRead" "$dirBaseName" "$onlyWords" "$rejectedWords" "$rejectedWordsByRegExs"
 
 if [ $? -ne 0 ] 
 then
     exit 1
 fi
+
+############################################################################
+#   Preparing variables to the SORT and to removePlural
+############################################################################
+mapfile -t < ~/sh_JCS/JCS_SubjectsArguments2.txt
+
+for i in ${!MAPFILE[@]}; 
+do
+  echo "element $i is ${MAPFILE[$i]}"
+  var$i=${MAPFILE[$i]}
+  
+  case "$i" in
+        0)  OnlyWordsSorted=${MAPFILE[0]}
+            echo "${MAPFILE[0]}"
+           ;;
+        1)  SubjectsWithoutPlural=${MAPFILE[1]}
+            echo "${MAPFILE[1]}"
+           ;;
+        2)  SubjectsWithPlural=${MAPFILE[2]}
+            echo "${MAPFILE[1]}"
+           ;;
+        3)  EncodedWords=${MAPFILE[3]}
+            echo "${MAPFILE[1]}"
+           ;;
+        *)  echo " Invalid value"
+           ;;
+  esac
+  
+done
+
+# Received arguments
+echo
+echo "JCS_SubjectsMain.sh - OnlyWordsSorted       = " "$OnlyWordsSorted"
+echo "JCS_SubjectsMain.sh - SubjectsWithoutPlural = " "$SubjectsWithoutPlural"
+echo "JCS_SubjectsMain.sh - SubjectsWithPlural    = " "$SubjectsWithPlural"
+echo "JCS_SubjectsMain.sh - EncodedWords          = " "$EncodedWords"
+echo
 
 ############################################################################
 #   Calling sort unique (-u)
@@ -128,7 +165,7 @@ fi
 #   letter
 ############################################################################
 echo "JCS_SubjectsMain.sh - ========== sort -u =============="
-LC_COLLATE=C sort -u $onlyWords > ~/Documents/TXT/wordsOnly/selectedBooks_OnlyWordsSorted.txt
+LC_COLLATE=C sort -u "$onlyWords" > "$OnlyWordsSorted"
 
 if [ $? -ne 0 ] 
 then
@@ -144,7 +181,7 @@ fi
 #           2) selectedBooks_WordsWithPlural.txt
 ############################################################################
 echo "JCS_SubjectsMain.sh - ========== calling 'removePlural' =============="
-removePlural ~/Documents/TXT/wordsOnly/selectedBooks_OnlyWordsSorted.txt ~/Documents/TXT/wordsOnly/selectedBooks_SubjectsWithoutPlural.txt ~/Documents/TXT/wordsOnly/selectedBooks_WordsWithPlural.txt
+removePlural "$OnlyWordsSorted" "$SubjectsWithoutPlural" "$SubjectsWithPlural"
     
 if [ $? -ne 0 ] 
 then
@@ -161,7 +198,7 @@ fi
 #   output: 1) selectedBooks_EncodedWords.txt
 ############################################################################
 echo "JCS_SubjectsMain.sh - ========== calling 'Soundex' =============="
-Soundex ~/Documents/TXT/wordsOnly/selectedBooks_SubjectsWithoutPlural.txt ~/Documents/TXT/wordsOnly/selectedBooks_EncodedWords.txt 4
+Soundex "$SubjectsWithoutPlural" "$EncodedWords" 4
     
 if [ $? -ne 0 ] 
 then

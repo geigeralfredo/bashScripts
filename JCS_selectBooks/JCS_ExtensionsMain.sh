@@ -22,6 +22,8 @@ fi
 file2beRead=$1
 extensionsFile=$2
 rejectedExtensionsFile=$3
+ExtensionsSortedByName=$4
+ExtensionsSortedByOccurrences=$5
 
 # Verifying arguments
 if [ ! -f "$file2beRead" ]; then
@@ -33,27 +35,27 @@ fi
 if [ ! -f "$extensionsFile" ]; then
   echo "JCS_ExtensionsMain.sh - File $extensionsFile does not exist."
   echo "JCS_ExtensionsMain.sh - It will be created"  
-  touch $extensionsFile
+  touch "$extensionsFile"
 fi
 
 if [ ! -f "$rejectedExtensionsFile" ]; then
   echo "JCS_ExtensionsMain.sh - File $rejectedExtensionsFile does not exist."
   echo "JCS_ExtensionsMain.sh - It will be created"  
-  touch $rejectedExtensionsFile
+  touch "$rejectedExtensionsFile"
 fi
 
 # Here arguments are OK
 echo
-echo "JCS_ExtensionsMain.sh - file2beRead             = " $file2beRead
-echo "JCS_ExtensionsMain.sh - extensionsFile          = " $extensionsFile
-echo "JCS_ExtensionsMain.sh - rejectedExtensionsFile  = " $rejectedExtensionsFile
+echo "JCS_ExtensionsMain.sh - file2beRead             = " "$file2beRead"
+echo "JCS_ExtensionsMain.sh - extensionsFile          = " "$extensionsFile"
+echo "JCS_ExtensionsMain.sh - rejectedExtensionsFile  = " "$rejectedExtensionsFile"
 echo
 
 ############################################################################
 #   Calling getExtensions
 ############################################################################
 echo "JCS_ExtensionsMain.sh - ========== getExtensions will be called =============="
-getExtensions  $file2beRead  $extensionsFile  $rejectedExtensionsFile
+getExtensions  "$file2beRead"  "$extensionsFile"  "$rejectedExtensionsFile"
 
 if [ $? -ne 0 ] 
 then
@@ -64,7 +66,7 @@ fi
 #   sort extensions by name
 ############################################################################
 echo "JCS_ExtensionsMain.sh - ========== sort extensions by name =============="
-sort ~/Documents/TXT/selectBooks/selectedBooks_Extensions.txt > ~/Documents/TXT/selectBooks/selectedBooks_ExtensionsSortedByName.txt
+sort "$extensionsFile" > "$ExtensionsSortedByName"
 
 if [ $? -ne 0 ] 
 then
@@ -75,19 +77,8 @@ fi
 #   sort extensions by number of occurrences 
 ############################################################################
 echo "JCS_ExtensionsMain.sh - ========== sort extensions by number of occurrences =============="
-sort -n --key=2.1 --key=1.2 ~/Documents/TXT/selectBooks/selectedBooks_Extensions.txt > ~/Documents/TXT/selectBooks/selectedBooks_ExtensionsSortedByOccurrences.txt
+sort -n --key=2.1 --key=1.2 "$extensionsFile" > "$ExtensionsSortedByOccurrences"
 #cat ~/Documents/TXT/selectBooks/selectedBooks_ExtensionsSortedByOccurrences.txt
-
-if [ $? -ne 0 ] 
-then
-    exit 1
-fi
-
-############################################################################
-#   list the rejected extensions
-############################################################################
-#echo "JCS_ExtensionsMain.sh - ========== list the rejected extensions =============="
-#cat ~/Documents/TXT/selectBooks/selectedBooks_RejectedExtensions.txt
 
 if [ $? -ne 0 ] 
 then
