@@ -16,12 +16,14 @@ scriptName="JCS_SelectBooks.sh"
 #---------------------------------------------------------------------------
 checkParameterSize ()
 {
-  if [ ${#parameter} == 0 ]; then
-    echo "$scriptName - parameter $k has no information."
-    echo "$scriptName - Script will terminate."
-    exit 1
-  fi
-  echo "${MAPFILE[$k]}"
+    parameter=${MAPFILE[$k]}
+
+    if [ ${#parameter} == 0 ]; then
+      echo "$scriptName - parameter $k has no information."
+      echo "$scriptName - Script will terminate."
+      exit 1
+    fi
+    echo "${MAPFILE[$k]}"
 }
 
 ############################################################################
@@ -48,29 +50,21 @@ do
   echo "Parameter $k is ${MAPFILE[$k]}"
 
   case "$k" in
-        0)  parameter=${MAPFILE[$k]}
-            checkParameterSize
+        0)  checkParameterSize 
         ;;
-        1)  parameter=${MAPFILE[$k]}
-            checkParameterSize
+        1)  checkParameterSize 
         ;;
-        2)  parameter=${MAPFILE[$k]}
-            checkParameterSize
+        2)  checkParameterSize 
         ;;
-        3)  parameter=${MAPFILE[$k]}
-            checkParameterSize
+        3)  checkParameterSize 
         ;;
-        4)  parameter=${MAPFILE[$k]}
-            checkParameterSize
+        4)  checkParameterSize 
         ;;
-        5)  parameter=${MAPFILE[$k]}
-            checkParameterSize
+        5)  checkParameterSize 
         ;;
-        6)  parameter=${MAPFILE[$k]}
-            checkParameterSize
+        6)  checkParameterSize 
         ;;
-        7)  parameter=${MAPFILE[$k]}
-            checkParameterSize
+        7)  checkParameterSize 
         ;;
         *)  echo "$scriptName - Eight (8) arguments must be informed:"
             echo "$scriptName - - 1) -b"
