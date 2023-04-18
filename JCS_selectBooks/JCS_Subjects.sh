@@ -56,18 +56,43 @@ do
   
   case "$i" in
         0)  file2beRead=${MAPFILE[0]}
+            if [ ${#file2beRead} == 0 ]; then
+              echo "$scriptName - parameter 'file2beRead' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[0]}"
            ;;
         1)  dirBaseName=${MAPFILE[1]}
+            if [ ${#dirBaseName} == 0 ]; then
+              echo "$scriptName - parameter 'dirBaseName' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[1]}"
            ;;
         2)  onlyWords=${MAPFILE[2]}
+            if [ ${#onlyWords} == 0 ]; then
+              echo "$scriptName - parameter 'onlyWords' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[2]}"
            ;;
         3)  rejectedWords=${MAPFILE[3]}
+            if [ ${#rejectedWords} == 0 ]; then
+              echo "$scriptName - parameter 'rejectedWords' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[3]}"
            ;;
         4)  rejectedWordsByRegExs=${MAPFILE[4]}
+            if [ ${#rejectedWordsByRegExs} == 0 ]; then
+              echo "$scriptName - parameter 'rejectedWordsByRegExs' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[4]}"
            ;;
         *)  echo "$scriptName - Inform 5 File names:" 
@@ -152,15 +177,35 @@ do
   
   case "$i" in
         0)  OnlyWordsSorted=${MAPFILE[0]}
+            if [ ${#OnlyWordsSorted} == 0 ]; then
+              echo "$scriptName - parameter 'OnlyWordsSorted' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[0]}"
            ;;
         1)  SubjectsWithoutPlural=${MAPFILE[1]}
+            if [ ${#SubjectsWithoutPlural} == 0 ]; then
+              echo "$scriptName - parameter 'SubjectsWithoutPlural' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[1]}"
            ;;
         2)  SubjectsWithPlural=${MAPFILE[2]}
+            if [ ${#SubjectsWithPlural} == 0 ]; then
+              echo "$scriptName - parameter 'SubjectsWithPlural' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[2]}"
            ;;
         3)  EncodedWords=${MAPFILE[3]}
+            if [ ${#EncodedWords} == 0 ]; then
+              echo "$scriptName - parameter 'EncodedWords' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[3]}"
            ;;
         *)  echo "$scriptName - Inform 4 parameters:" 

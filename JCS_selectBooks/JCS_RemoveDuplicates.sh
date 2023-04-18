@@ -35,12 +35,27 @@ for i in "${!MAPFILE[@]}";
 do  
   case "$i" in
         0)  AllBooks=${MAPFILE[0]}
+            if [ ${#AllBooks} == 0 ]; then
+              echo "$scriptName - parameter 'AllBooks' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[0]}"
            ;;
         1)  removeDuplicates_CompleteRec=${MAPFILE[1]}
+            if [ ${#removeDuplicates_CompleteRec} == 0 ]; then
+              echo "$scriptName - parameter 'removeDuplicates_CompleteRec' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[1]}"
            ;;
         2)  removeDuplicates_NumSizeFile=${MAPFILE[2]}
+            if [ ${#removeDuplicates_NumSizeFile} == 0 ]; then
+              echo "$scriptName - parameter 'removeDuplicates_NumSizeFile' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[2]}"
            ;;
         *)  echo "$scriptName - Inform 3 File names:" 
@@ -103,12 +118,27 @@ for i in "${!MAPFILE[@]}";
 do
   case "$i" in
         0)  removeDuplicates_NumSizeFileSorted=${MAPFILE[0]}
+            if [ ${#removeDuplicates_NumSizeFileSorted} == 0 ]; then
+              echo "$scriptName - parameter 'removeDuplicates_NumSizeFileSorted' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[0]}"
            ;;
         1)  eniplicities_Duplicates=${MAPFILE[1]}
+            f [ ${#eniplicities_Duplicates} == 0 ]; then
+              echo "$scriptName - parameter 'eniplicities_Duplicates' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[1]}"
            ;;
         2)  eniplicities_Without_Duplicates=${MAPFILE[2]}
+            if [ ${#eniplicities_Without_Duplicates} == 0 ]; then
+              echo "$scriptName - parameter 'eniplicities_Without_Duplicates' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[2]}"
            ;;
         *)  echo "$scriptName - Inform 3 File names:" 
@@ -159,7 +189,7 @@ LC_ALL=C sort -k 3,3 -k 2n  "$removeDuplicates_NumSizeFile" > "$removeDuplicates
 
 if [ $? -ne 0 ] 
 then
-    echo "$scriptName - ========== 'sort  E  R  R  O  R' =============="
+    echo "$scriptName - ========== 'LC_ALL=C sort -k 3,3 -k 2n   E  R  R  O  R' =============="
     exit 1
 fi
 
@@ -195,9 +225,19 @@ for i in "${!MAPFILE[@]}";
 do
   case "$i" in
         0)  eniplicities_DuplicatesSorted=${MAPFILE[0]}
+            if [ ${#eniplicities_DuplicatesSorted} == 0 ]; then
+              echo "$scriptName - parameter 'eniplicities_DuplicatesSorted' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[0]}"
            ;;
         1)  duplicateBooksLocation=${MAPFILE[1]}
+            if [ ${#duplicateBooksLocation} == 0 ]; then
+              echo "$scriptName - parameter 'duplicateBooksLocation' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[1]}"
            ;;
         *)  echo "$scriptName - Inform 2 File names:" 

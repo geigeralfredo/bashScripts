@@ -21,18 +21,43 @@ for i in "${!MAPFILE[@]}";
 do  
   case "$i" in
         0)  AllBooks=${MAPFILE[0]}
+            if [ ${#AllBooks} == 0 ]; then
+              echo "$scriptName - parameter 'AllBooks' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[0]}"
            ;;
         1)  selectedBooks_Extensions=${MAPFILE[1]}
+            if [ ${#selectedBooks_Extensions} == 0 ]; then
+              echo "$scriptName - parameter 'selectedBooks_Extensions' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[1]}"
            ;;
         2)  selectedBooks_RejectedExtensions=${MAPFILE[2]}
+            if [ ${#selectedBooks_RejectedExtensions} == 0 ]; then
+              echo "$scriptName - parameter 'selectedBooks_RejectedExtensions' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[2]}"
            ;;
         3)  selectedBooks_ExtensionsSortedByName=${MAPFILE[3]}
+            if [ ${#selectedBooks_ExtensionsSortedByName} == 0 ]; then
+              echo "$scriptName - parameter 'selectedBooks_ExtensionsSortedByName' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[3]}"
            ;;
         4)  selectedBooks_ExtensionsSortedByOccurrences=${MAPFILE[4]}
+            if [ ${#selectedBooks_ExtensionsSortedByOccurrences} == 0 ]; then
+              echo "$scriptName - parameter 'selectedBooks_ExtensionsSortedByOccurrences' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[4]}"
            ;;
         *)  echo "$scriptName - Inform 5 File names:" 

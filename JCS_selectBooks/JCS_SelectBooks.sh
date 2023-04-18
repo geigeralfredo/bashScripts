@@ -6,13 +6,23 @@
 #           JCS_CreateAllBooksFileArgs.sh
 #           JCS_SelectBooksArgs.sh
 #
-#Parameters: No parameters
 #---------------------------------------------------------------------------
-
-############################################################################
-#             Helper Constants
-############################################################################
+#         Helper Constants
+#---------------------------------------------------------------------------
 scriptName="JCS_SelectBooks.sh"
+
+#---------------------------------------------------------------------------
+#         checkParameterSize function
+#---------------------------------------------------------------------------
+checkParameterSize ()
+{
+  if [ ${#parameter} == 0 ]; then
+    echo "$scriptName - parameter $k has no information."
+    echo "$scriptName - Script will terminate."
+    exit 1
+  fi
+  echo "${MAPFILE[$k]}"
+}
 
 ############################################################################
 #   Calling JCS_CreateAllBooks.sh
@@ -23,6 +33,7 @@ JCS_CreateAllBooks.sh "${MAPFILE[@]}"
 
 if [ $? -ne 0 ] 
 then
+    echo "$scriptName - ======== JCS_CreateAllBooks.sh    E  R  R  O  R  ============"
     exit 1
 fi
 
@@ -32,11 +43,54 @@ fi
 echo "$scriptName - ========== calling 'selectBooks' ==========="
 mapfile -t < ~/sh_JCS/JCS_SelectBooksArguments.txt
 
-for i in "${!MAPFILE[@]}"; 
+for k in "${!MAPFILE[@]}"; 
 do
-  echo "Parameter $i is ${MAPFILE[$i]}"
+  echo "Parameter $k is ${MAPFILE[$k]}"
+
+  case "$k" in
+        0)  parameter=${MAPFILE[$k]}
+            checkParameterSize
+        ;;
+        1)  parameter=${MAPFILE[$k]}
+            checkParameterSize
+        ;;
+        2)  parameter=${MAPFILE[$k]}
+            checkParameterSize
+        ;;
+        3)  parameter=${MAPFILE[$k]}
+            checkParameterSize
+        ;;
+        4)  parameter=${MAPFILE[$k]}
+            checkParameterSize
+        ;;
+        5)  parameter=${MAPFILE[$k]}
+            checkParameterSize
+        ;;
+        6)  parameter=${MAPFILE[$k]}
+            checkParameterSize
+        ;;
+        7)  parameter=${MAPFILE[$k]}
+            checkParameterSize
+        ;;
+        *)  echo "$scriptName - Eight (8) arguments must be informed:"
+            echo "$scriptName - - 1) -b"
+            echo "$scriptName - - 2) BookCollection directory"
+            echo "$scriptName - - 3) -l"
+            echo "$scriptName - - 4) BookLists directory"
+            echo "$scriptName - - 5) -s"
+            echo "$scriptName - - 6) Subjects file name"
+            echo "$scriptName - - 7) -c"
+            echo "$scriptName - - 8) 'Y' or 'N'"
+            echo "$scriptName - Script will terminate."
+            exit 1
+        ;;
+  esac
+
 done
 
+#---------------------------------------------------------------------------
+#         Calling selectBooks
+#---------------------------------------------------------------------------
 selectBooks "${MAPFILE[@]}"
 
 ############################################################################
@@ -50,9 +104,19 @@ do
   
   case "$i" in
         0)  file2BeMoved=${MAPFILE[0]}
+            if [ ${#file2BeMoved} == 0 ]; then
+              echo "$scriptName - parameter 'file2BeMoved' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[0]}"
            ;;
         1)  destDir=${MAPFILE[1]}
+            if [ ${#destDir} == 0 ]; then
+              echo "$scriptName - parameter 'destDir' has no information."
+              echo "$scriptName - Script will terminate."
+              exit 1
+            fi
             echo "${MAPFILE[1]}"
            ;;
         *)  echo "$scriptName - Two (2) arguments must be informed:"
