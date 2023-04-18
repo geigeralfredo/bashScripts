@@ -126,7 +126,7 @@ do
             echo "${MAPFILE[0]}"
            ;;
         1)  eniplicities_Duplicates=${MAPFILE[1]}
-            f [ ${#eniplicities_Duplicates} == 0 ]; then
+            if [ ${#eniplicities_Duplicates} == 0 ]; then
               echo "$scriptName - parameter 'eniplicities_Duplicates' has no information."
               echo "$scriptName - Script will terminate."
               exit 1
