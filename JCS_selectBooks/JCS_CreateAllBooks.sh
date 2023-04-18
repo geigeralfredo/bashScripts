@@ -13,35 +13,41 @@
 #             Helper Constants
 ############################################################################
 scriptName="JCS_CreateAllBooks.sh"
+argumentsFile="$HOME/sh_JCS/JCS_CreateAllBooksArguments.txt"
 
-mapfile -t < ~/sh_JCS/JCS_CreateAllBooksArguments.txt
+#---------------------------------------------------------------------------
+#         checkParameterSize function
+#---------------------------------------------------------------------------
+checkParameterSize ()
+{
+    parameter=${MAPFILE[$i]}
+
+    if [ ${#parameter} == 0 ]; then
+      echo "$scriptName - parameter $i has no information."
+      echo "$scriptName - Script will terminate."
+      exit 1
+    fi
+    echo "$scriptName - ${MAPFILE[$i]}"
+}
+
+#---------------------------------------------------------------------------
+#         Preparing to call script JCS_CreateAllBooksMain.sh
+#---------------------------------------------------------------------------
+echo "$scriptName - Parameters read from File = $argumentsFile"
+
+mapfile -t < "$argumentsFile"
 
 for i in "${!MAPFILE[@]}"; 
 do  
   case "$i" in
-        0)  BookCollection=${MAPFILE[0]}
-            if [ ${#BookCollection} == 0 ]; then
-              echo "$scriptName - parameter 'BookCollection' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[0]}"
+        0)  checkParameterSize
+            BookCollection=${MAPFILE[$i]}
            ;;
-        1)  BookLists=${MAPFILE[1]}
-        if [ ${#BookLists} == 0 ]; then
-              echo "$scriptName - parameter 'BookLists' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[1]}"
+        1)  checkParameterSize
+            BookLists=${MAPFILE[$i]}
            ;;
-        2)  create_y_n=${MAPFILE[2]}
-            if [ ${#create_y_n} == 0 ]; then
-              echo "$scriptName - parameter 'create_y_n' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[2]}"
+        2)  checkParameterSize
+            create_y_n=${MAPFILE[$i]}
            ;;
         *)      echo "$scriptName - Three (3) arguments must be informed:"
                 echo "$scriptName - - 1) The book collection Diretory, plus"

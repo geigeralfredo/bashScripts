@@ -10,27 +10,31 @@
 #         Helper Constants
 #---------------------------------------------------------------------------
 scriptName="JCS_SelectBooks.sh"
+argumentsFile="$HOME/sh_JCS/JCS_CreateAllBooksArguments.txt"
+argumentsFile2="$HOME/sh_JCS/JCS_SelectBooksArguments.txt"
+argumentsFile3="$HOME/sh_JCS/JCS_SelectBooksArguments2.txt"
 
 #---------------------------------------------------------------------------
 #         checkParameterSize function
 #---------------------------------------------------------------------------
 checkParameterSize ()
 {
-    parameter=${MAPFILE[$k]}
+    parameter=${MAPFILE[$i]}
 
     if [ ${#parameter} == 0 ]; then
-      echo "$scriptName - parameter $k has no information."
+      echo "$scriptName - parameter $i has no information."
       echo "$scriptName - Script will terminate."
       exit 1
     fi
-    echo "${MAPFILE[$k]}"
+    echo "$scriptName - ${MAPFILE[$i]}"
 }
 
 ############################################################################
 #   Calling JCS_CreateAllBooks.sh
 ############################################################################
 echo "$scriptName - ========== calling 'JCS_CreateAllBooks.sh' ==========="
-mapfile -t < ~/sh_JCS/JCS_CreateAllBooksArguments.txt
+mapfile -t < "$argumentsFile"
+
 JCS_CreateAllBooks.sh "${MAPFILE[@]}"
 
 if [ $? -ne 0 ] 
@@ -43,13 +47,13 @@ fi
 #   Calling selectBooks
 ############################################################################
 echo "$scriptName - ========== calling 'selectBooks' ==========="
-mapfile -t < ~/sh_JCS/JCS_SelectBooksArguments.txt
+mapfile -t < "$argumentsFile2"
 
-for k in "${!MAPFILE[@]}"; 
+for i in "${!MAPFILE[@]}"; 
 do
-  echo "Parameter $k is ${MAPFILE[$k]}"
+  echo "$scriptName - Parameter $i is ${MAPFILE[$i]}"
 
-  case "$k" in
+  case "$i" in
         0)  checkParameterSize 
         ;;
         1)  checkParameterSize 
@@ -90,28 +94,18 @@ selectBooks "${MAPFILE[@]}"
 ############################################################################
 #   Moving file selectedBooksTotals.txt
 ############################################################################
-mapfile -t < ~/sh_JCS/JCS_SelectBooksArguments2.txt
+mapfile -t < "$argumentsFile3"
 
 for i in "${!MAPFILE[@]}"; 
 do
-  echo "Parameter $i is ${MAPFILE[$i]}"  
+  echo "$scriptName - Parameter $i is ${MAPFILE[$i]}"  
   
   case "$i" in
-        0)  file2BeMoved=${MAPFILE[0]}
-            if [ ${#file2BeMoved} == 0 ]; then
-              echo "$scriptName - parameter 'file2BeMoved' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[0]}"
+        0)  checkParameterSize
+            file2BeMoved=${MAPFILE[$i]}
            ;;
-        1)  destDir=${MAPFILE[1]}
-            if [ ${#destDir} == 0 ]; then
-              echo "$scriptName - parameter 'destDir' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[1]}"
+        1)  checkParameterSize
+            destDir=${MAPFILE[$i]}
            ;;
         *)  echo "$scriptName - Two (2) arguments must be informed:"
             echo "$scriptName - - 1) The file name to be moved."

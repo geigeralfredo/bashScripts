@@ -44,56 +44,49 @@
 #             Helper Constants
 #---------------------------------------------------------------------------
 scriptName="JCS_Subjects.sh"
+argumentsFile="$HOME/sh_JCS/JCS_SubjectsArguments.txt"
+argumentsFile2="$HOME/sh_JCS/JCS_SubjectsArguments2.txt"
+
+#---------------------------------------------------------------------------
+#         checkParameterSize function
+#---------------------------------------------------------------------------
+checkParameterSize ()
+{
+    parameter=${MAPFILE[$i]}
+
+    if [ ${#parameter} == 0 ]; then
+      echo "$scriptName - parameter $i has no information."
+      echo "$scriptName - Script will terminate."
+      exit 1
+    fi
+    echo "$scriptName - ${MAPFILE[$i]}"
+}
+
 
 #---------------------------------------------------------------------------
 #             Reading parameters
 #---------------------------------------------------------------------------
-mapfile -t < ~/sh_JCS/JCS_SubjectsArguments.txt
+mapfile -t < "$argumentsFile"
 
 for i in "${!MAPFILE[@]}"; 
 do
-  echo "Parameter $i is ${MAPFILE[$i]}"
+  echo "$scriptName - Parameter $i is ${MAPFILE[$i]}"
   
   case "$i" in
-        0)  file2beRead=${MAPFILE[0]}
-            if [ ${#file2beRead} == 0 ]; then
-              echo "$scriptName - parameter 'file2beRead' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[0]}"
+        0)  checkParameterSize
+            file2beRead=${MAPFILE[$i]}
            ;;
-        1)  dirBaseName=${MAPFILE[1]}
-            if [ ${#dirBaseName} == 0 ]; then
-              echo "$scriptName - parameter 'dirBaseName' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[1]}"
+        1)  checkParameterSize
+            dirBaseName=${MAPFILE[$i]}
            ;;
-        2)  onlyWords=${MAPFILE[2]}
-            if [ ${#onlyWords} == 0 ]; then
-              echo "$scriptName - parameter 'onlyWords' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[2]}"
+        2)  checkParameterSize
+            onlyWords=${MAPFILE[$i]}
            ;;
-        3)  rejectedWords=${MAPFILE[3]}
-            if [ ${#rejectedWords} == 0 ]; then
-              echo "$scriptName - parameter 'rejectedWords' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[3]}"
+        3)  checkParameterSize
+            rejectedWords=${MAPFILE[$i]}
            ;;
-        4)  rejectedWordsByRegExs=${MAPFILE[4]}
-            if [ ${#rejectedWordsByRegExs} == 0 ]; then
-              echo "$scriptName - parameter 'rejectedWordsByRegExs' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[4]}"
+        4)  checkParameterSize
+            rejectedWordsByRegExs=${MAPFILE[$i]}
            ;;
         *)  echo "$scriptName - Inform 5 File names:" 
             echo "$scriptName - 1-File with a list of all books"
@@ -169,44 +162,24 @@ fi
 ############################################################################
 #   Preparing variables to the SORT and to removePlural
 ############################################################################
-mapfile -t < ~/sh_JCS/JCS_SubjectsArguments2.txt
+mapfile -t < "$argumentsFile2"
 
 for i in "${!MAPFILE[@]}";
 do
-  echo "Parameter $i is ${MAPFILE[$i]}"
+  echo "$scriptName - Parameter $i is ${MAPFILE[$i]}"
   
   case "$i" in
-        0)  OnlyWordsSorted=${MAPFILE[0]}
-            if [ ${#OnlyWordsSorted} == 0 ]; then
-              echo "$scriptName - parameter 'OnlyWordsSorted' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[0]}"
+        0)  checkParameterSize
+            OnlyWordsSorted=${MAPFILE[$i]}
            ;;
-        1)  SubjectsWithoutPlural=${MAPFILE[1]}
-            if [ ${#SubjectsWithoutPlural} == 0 ]; then
-              echo "$scriptName - parameter 'SubjectsWithoutPlural' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[1]}"
+        1)  checkParameterSize
+            SubjectsWithoutPlural=${MAPFILE[$i]}
            ;;
-        2)  SubjectsWithPlural=${MAPFILE[2]}
-            if [ ${#SubjectsWithPlural} == 0 ]; then
-              echo "$scriptName - parameter 'SubjectsWithPlural' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[2]}"
+        2)  checkParameterSize
+            SubjectsWithPlural=${MAPFILE[$i]}
            ;;
-        3)  EncodedWords=${MAPFILE[3]}
-            if [ ${#EncodedWords} == 0 ]; then
-              echo "$scriptName - parameter 'EncodedWords' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[3]}"
+        3)  checkParameterSize
+            EncodedWords=${MAPFILE[$i]}
            ;;
         *)  echo "$scriptName - Inform 4 parameters:" 
             echo "$scriptName - 1-File that will receive OnlyWordsSorted"

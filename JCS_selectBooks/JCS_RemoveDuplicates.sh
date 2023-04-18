@@ -25,38 +25,44 @@
 #             Helper Constants
 ############################################################################
 scriptName="JCS_RemoveDuplicates.sh"
+argumentsFile="$HOME/sh_JCS/JCS_RemoveDuplicatesArguments.txt"
+argumentsFile2="$HOME/sh_JCS/JCS_RemoveDuplicates2Arguments.txt"
+argumentsFile3="$HOME/sh_JCS/JCS_RemoveDuplicates3Arguments.txt"
+
+#---------------------------------------------------------------------------
+#         checkParameterSize function
+#---------------------------------------------------------------------------
+checkParameterSize ()
+{
+    parameter=${MAPFILE[$i]}
+
+    if [ ${#parameter} == 0 ]; then
+      echo "$scriptName - parameter $i has no information."
+      echo "$scriptName - Script will terminate."
+      exit 1
+    fi
+    echo "$scriptName - ${MAPFILE[$i]}"
+}
+
 
 ############################################################################
 #   Preparing variables with the file names for pgm RemoveDuPlicates2
 ############################################################################
-mapfile -t < ~/sh_JCS/JCS_RemoveDuplicatesArguments.txt
+echo "$scriptName - Parameters read from File = $argumentsFile"
+
+mapfile -t < "$argumentsFile"
 
 for i in "${!MAPFILE[@]}"; 
 do  
   case "$i" in
-        0)  AllBooks=${MAPFILE[0]}
-            if [ ${#AllBooks} == 0 ]; then
-              echo "$scriptName - parameter 'AllBooks' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[0]}"
+        0)  checkParameterSize
+            AllBooks=${MAPFILE[$i]}
            ;;
-        1)  removeDuplicates_CompleteRec=${MAPFILE[1]}
-            if [ ${#removeDuplicates_CompleteRec} == 0 ]; then
-              echo "$scriptName - parameter 'removeDuplicates_CompleteRec' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[1]}"
+        1)  checkParameterSize
+            removeDuplicates_CompleteRec=${MAPFILE[$i]}
            ;;
-        2)  removeDuplicates_NumSizeFile=${MAPFILE[2]}
-            if [ ${#removeDuplicates_NumSizeFile} == 0 ]; then
-              echo "$scriptName - parameter 'removeDuplicates_NumSizeFile' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[2]}"
+        2)  checkParameterSize
+            removeDuplicates_NumSizeFile=${MAPFILE[$i]}
            ;;
         *)  echo "$scriptName - Inform 3 File names:" 
             echo "$scriptName - 1-File with a list of all books"            
@@ -112,34 +118,21 @@ fi
 ############################################################################
 #   Preparing variables to the SORT and to removePlural
 ############################################################################
-mapfile -t < ~/sh_JCS/JCS_RemoveDuplicates2Arguments.txt
+echo "$scriptName - Parameters read from File = $argumentsFile2"
+
+mapfile -t < "$argumentsFile2"
 
 for i in "${!MAPFILE[@]}"; 
 do
   case "$i" in
-        0)  removeDuplicates_NumSizeFileSorted=${MAPFILE[0]}
-            if [ ${#removeDuplicates_NumSizeFileSorted} == 0 ]; then
-              echo "$scriptName - parameter 'removeDuplicates_NumSizeFileSorted' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[0]}"
+        0)  checkParameterSize
+            removeDuplicates_NumSizeFileSorted=${MAPFILE[$i]}
            ;;
-        1)  eniplicities_Duplicates=${MAPFILE[1]}
-            if [ ${#eniplicities_Duplicates} == 0 ]; then
-              echo "$scriptName - parameter 'eniplicities_Duplicates' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[1]}"
+        1)  checkParameterSize
+            eniplicities_Duplicates=${MAPFILE[$i]}
            ;;
-        2)  eniplicities_Without_Duplicates=${MAPFILE[2]}
-            if [ ${#eniplicities_Without_Duplicates} == 0 ]; then
-              echo "$scriptName - parameter 'eniplicities_Without_Duplicates' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[2]}"
+        2)  checkParameterSize
+            eniplicities_Without_Duplicates=${MAPFILE[$i]}
            ;;
         *)  echo "$scriptName - Inform 3 File names:" 
             echo "$scriptName - 1 - File that will receive the Sorted NumSizeFile"
@@ -219,26 +212,18 @@ fi
 ############################################################################
 #   Preparing variables to the SORT and to DuplicateBooksLocation
 ############################################################################
-mapfile -t < ~/sh_JCS/JCS_RemoveDuplicates3Arguments.txt
+echo "$scriptName - Parameters read from File = $argumentsFile3"
+
+mapfile -t < "$argumentsFile3"
 
 for i in "${!MAPFILE[@]}"; 
 do
   case "$i" in
-        0)  eniplicities_DuplicatesSorted=${MAPFILE[0]}
-            if [ ${#eniplicities_DuplicatesSorted} == 0 ]; then
-              echo "$scriptName - parameter 'eniplicities_DuplicatesSorted' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[0]}"
+        0)  checkParameterSize
+            eniplicities_DuplicatesSorted=${MAPFILE[$i]}
            ;;
-        1)  duplicateBooksLocation=${MAPFILE[1]}
-            if [ ${#duplicateBooksLocation} == 0 ]; then
-              echo "$scriptName - parameter 'duplicateBooksLocation' has no information."
-              echo "$scriptName - Script will terminate."
-              exit 1
-            fi
-            echo "${MAPFILE[1]}"
+        1)  checkParameterSize
+            duplicateBooksLocation=${MAPFILE[$i]}
            ;;
         *)  echo "$scriptName - Inform 2 File names:" 
             echo "$scriptName - 1 - File that will receive the eniplicities_DuplicatesSorted"
